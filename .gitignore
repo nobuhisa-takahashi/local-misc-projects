@@ -27,3 +27,9 @@ build/
 *.o
 *.so
 *.dylib
+
+# Rust
+target/
+
+# Go バイナリ (拡張子なし実行ファイルは個別指定)
+tools/urlencdec/go/urlencdec
