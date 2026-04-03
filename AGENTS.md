@@ -87,16 +87,41 @@
 - クラウドリソースの起動・作成 (EC2インスタンス、Cloud Functions 等) は外部システム操作の制限に準じる
 - 大量のリクエストやループ処理で意図せずコストが発生しないよう注意すること
 
-## Git 操作の制限
+## Git ワークフロー (gitflow)
 
-- 以下の破壊的操作はユーザーの明示的な許可なしに実行しないこと:
+### ブランチ構成
+
+| ブランチ | 用途 | 派生元 | マージ先 |
+|----------|------|--------|----------|
+| `main` | 本番リリース (安定版) | — | — |
+| `develop` | 開発統合ブランチ | `main` | `main` |
+| `feature/*` | 新機能開発 | `develop` | `develop` |
+| `release/*` | リリース準備 | `develop` | `main` + `develop` |
+| `hotfix/*` | 緊急修正 | `main` | `main` + `develop` |
+
+### ブランチ命名規則
+
+- `feature/簡潔な説明` — 例: `feature/add-deploy-script`
+- `release/バージョン` — 例: `release/1.0.0`
+- `hotfix/簡潔な説明` — 例: `hotfix/fix-config-path`
+
+### 運用ルール
+
+- 作業は必ず `feature/*` ブランチで行い、`develop` へマージする
+- `main` / `develop` ブランチへの直接コミット・直接 push は行わないこと
+- マージは原則として Pull Request 経由で行う
+- `feature` ブランチは `develop` から派生し、`develop` にマージする
+- `main` へのマージは `release/*` または `hotfix/*` 経由のみ
+
+### 破壊的操作の制限
+
+- 以下の操作はユーザーの明示的な許可なしに実行しないこと:
   - `git push --force` / `git push --force-with-lease`
   - `git reset --hard`
   - `git branch -D` (強制削除)
   - `git clean -f`
   - `git checkout .` / `git restore .` (全変更の破棄)
   - `git rebase` (リモートに push 済みのブランチに対して)
-- `main` / `master` ブランチへの直接 push は行わないこと
 - コミット前に差分を確認し、意図しないファイルが含まれていないか注意すること
 
 ## プロジェクト構成
