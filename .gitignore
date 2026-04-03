@@ -1,0 +1,29 @@
+# 環境固有設定・認証情報
+LOCAL-ENV-WORK.md
+.env
+.env.*
+
+# OS生成ファイル
+.DS_Store
+Thumbs.db
+
+# エディタ・IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 依存関係 (サブプロジェクトで個別管理)
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+vendor/
+
+# ビルド成果物
+dist/
+build/
+*.o
+*.so
+*.dylib
